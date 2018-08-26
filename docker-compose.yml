@@ -3,16 +3,16 @@ services:
   mysql:
     image: mysql:${MYSQL_VERSION}
     container_name: mysql
-    restart: always
+   # restart: always
     volumes:
       - "${DATA_DIR}/mysql:/var/lib/mysql"
     environment: 
-      MYSQL_ROOT_PASSWORD: nopassword
+      MYSQL_ROOT_PASSWORD: password123zzzte
 
   nextcloud:
     image: nextcloud:${NEXTCLOUD_VERSION}
     container_name: nextcloud
-    restart: always
+   # restart: always
     volumes:
       - "${DATA_DIR}/nextcloud:/var/www/html"
       - "${DATA_DIR}/mysql:/var/lib/mysql"
@@ -31,7 +31,7 @@ services:
   reverse-proxy:
     image: jwilder/nginx-proxy:alpine
     container_name: nginx-proxy
-    restart: always
+    # restart: always
     ports:
       - 80:80
       - 443:443
@@ -47,7 +47,7 @@ services:
   letsencrypt-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt
-    restart: always
+   # restart: always
     volumes:
       - "${DATA_DIR}/nginx/certs:/etc/nginx/certs"
       - "${DATA_DIR}/nginx/vhosts:/etc/nginx/vhost.d"
@@ -56,16 +56,22 @@ services:
     depends_on:
       - reverse-proxy
 
-  backups:
-    image: christophetd/duplicacy-autobackup:v1.0
-    container_name: backups
-    restart: always
-    environment:
-      BACKUP_NAME: "${BACKUP_NAME}"
-      BACKUP_LOCATION: "b2://${B2_BUCKET}"
-      BACKUP_SCHEDULE: "${BACKUP_SCHEDULE}"
-      BACKUP_ENCRYPTION_KEY: "${BACKUP_ENCRYPTION_KEY}"
-      B2_ID: "${B2_ID}"
-      B2_KEY: "${B2_KEY}"
+
+onlyoffice:
+    image: onlyoffice/documentserver
+    container_name: onlyoffice
+   # restart: always
     volumes:
-      - "${DATA_DIR}:/data"
+      - "${DATA_DIR}/app/onlyoffice/DocumentServer/data:/var/www/onlyoffice/Data"
+      - "${DATA_DIR}/app/onlyoffice/DocumentServer/lib:/var/lib/onlyoffice"
+      - "${DATA_DIR}/app/onlyoffice/DocumentServer/db:/var/lib/postgresql"
+
+
+  ports:
+      - 8080:443
+    environment:
+
+SSL_CERTIFICATE_PATH: /etc/certs/cert.pem
+SSL_KEY_PATH: /etc/certs/privkey.pem
+SSL_DHPARAM_PATH: /etc/certs/dhparam.pem
+

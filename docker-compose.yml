@@ -69,7 +69,7 @@ services:
       - 8080:443
     
     environment:
-      - SSL_CERTIFICATE_PATH: /etc/certs/cert.pem
-      - SSL_KEY_PATH: /etc/certs/privkey.pem
-      - SSL_DHPARAM_PATH: /etc/certs/dhparam.pem
+      SSL_CERTIFICATE_PATH: /etc/certs/cert.pem
+      SSL_KEY_PATH: /etc/certs/privkey.pem
+      SSL_DHPARAM_PATH: /etc/certs/dhparam.pem
 

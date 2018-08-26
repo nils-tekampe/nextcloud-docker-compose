@@ -22,7 +22,7 @@ services:
       MYSQL_HOST: mysql
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: root
-      MYSQL_PASSWORD: nopassword
+      MYSQL_PASSWORD: password123zzzte
       VIRTUAL_HOST: ${HOST}
       LETSENCRYPT_HOST: ${HOST}
     depends_on:

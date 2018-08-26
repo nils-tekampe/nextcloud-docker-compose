@@ -57,7 +57,7 @@ services:
       - reverse-proxy
 
 
-onlyoffice:
+  onlyoffice:
     image: onlyoffice/documentserver
     container_name: onlyoffice
    # restart: always
